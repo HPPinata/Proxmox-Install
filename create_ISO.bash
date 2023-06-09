@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir temp
-mount proxmox-ve* temp
+mount debian* temp
 cp -a temp/. iso
 chmod -R 644 iso
 umount temp
