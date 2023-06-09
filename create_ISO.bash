@@ -12,7 +12,17 @@ sed -i "s+quiet+quiet priority=high file=/cdrom/preseed.cfg+g" iso/isolinux/txt.
 
 OUTPUT=proxmox_custom.iso
 VERSION=7.4
-xorrisofs -o $OUTPUT -v -r -J --joliet-long -V "Proxmox $VERSION" -c isolinux/boot.cat -b isolinux/isolinux.bin \
-          -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e boot/grub/efiboot.img -no-emul-boot .
+xorriso \
+   -outdev "$OUTPUT" \
+   -volid "$OUTPUT" \
+   -padding 0 \
+   -compliance no_emul_toc \
+   -map "./iso" / \
+   -chmod 0755 / -- \
+   -boot_image isolinux dir=/isolinux \
+   -boot_image any next \
+   -boot_image any efi_path=boot/grub/efi.img \
+   -boot_image isolinux partition_entry=gpt_basdat \
+   -stdio_sync off
 
 isohybrid --uefi $OUTPUT
