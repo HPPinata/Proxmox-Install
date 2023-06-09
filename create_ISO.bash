@@ -14,4 +14,4 @@ xorriso -as mkisofs -o proxmox_custom.iso \
         -c isolinux/boot.cat -b isolinux/isolinux.bin -no-emul-boot \
         -boot-load-size 4 -boot-info-table ./iso
 
-isohybrid --uefi ./proxmox_custom.iso
+isohybrid ./proxmox_custom.iso
