@@ -8,7 +8,7 @@ umount temp
 
 cp preseed.cfg ./iso
 
-sed -i "s+quiet+quiet priority=high file=/cdrom/preseed.cfg+g" iso/isolinux/txt.cfg
+sed -i "s+quiet+quiet priority=high locale=en_US.UTF-8 keymap=de file=/cdrom/preseed.cfg+g" iso/isolinux/txt.cfg iso/boot/grub/grub.cfg
 
 OUTPUT=proxmox_custom.iso
 VERSION=7.4
