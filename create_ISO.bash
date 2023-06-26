@@ -11,18 +11,16 @@ cp preseed.cfg ./iso
 sed -i "s+quiet+quiet priority=high locale=en_US.UTF-8 keymap=de file=/cdrom/preseed.cfg+g" iso/isolinux/txt.cfg iso/boot/grub/grub.cfg
 
 OUTPUT=proxmox_custom.iso
-VERSION=7.4
-xorriso \
-   -outdev "$OUTPUT" \
-   -volid "$OUTPUT" \
-   -padding 0 \
-   -compliance no_emul_toc \
-   -map "./iso" / \
-   -chmod 0755 / -- \
-   -boot_image isolinux dir=/isolinux \
-   -boot_image any next \
-   -boot_image any efi_path=boot/grub/efi.img \
-   -boot_image isolinux partition_entry=gpt_basdat \
-   -stdio_sync off
-
+xorrisofs \
+   -r -V "Proxmox Autoinstall" \
+   -o "$OUTPUT" \
+   -J -J -joliet-long -cache-inodes \
+   -b isolinux/isolinux.bin \
+   -c isolinux/boot.cat \
+   -boot-load-size 4 -boot-info-table -no-emul-boot \
+   -eltorito-alt-boot \
+   -e boot/grub/efi.img \
+   -no-emul-boot -isohybrid-gpt-basdat -isohybrid-apm-hfsplus \
+   ./iso
+    
 isohybrid --uefi $OUTPUT
