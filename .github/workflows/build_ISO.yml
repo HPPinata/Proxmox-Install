@@ -38,5 +38,5 @@ jobs:
         with:
           commit: "main"
           name: "Download ISO"
-          tag: "12.5.1"
+          tag: "12.7.0"
           artifacts: "proxmox_custom.iso"
